@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="common">
+	<!-- 해당 게시글의 첨부파일 이름 조회  -->
+ 	<select id="selectFileInfo" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	    <![CDATA[
+	        SELECT
+	            STORED_FILE_NAME,
+	            ORIGINAL_FILE_NAME
+	        FROM
+	            TB_FILE
+	        WHERE
+	            IDX = #{IDX}
+	    ]]>
+	</select>
+	
+	
+	<!-- 페이징 CRUD하는 코드에서 불러와서 쓰기위해 중복된 부분을 미리 정의해 놓은 것. -->
+	<sql id="pagingPre">
+	    <![CDATA[
+	        SELECT
+	            AAA.*
+	        FROM(
+	            SELECT
+	                COUNT(*) OVER() AS TOTAL_COUNT,
+	                AA.*
+	            FROM(  
+	    ]]>
+	</sql>
+ 
+	<sql id="pagingPost">
+	    <![CDATA[
+	            ) AA
+	        ) AAA
+	        WHERE
+	            AAA.RNUM BETWEEN #{START} AND #{END}
+	    ]]>
+	</sql>
+</mapper>

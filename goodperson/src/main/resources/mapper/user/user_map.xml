@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="user">
+
+	 <select id="selectDuplicateId" parameterType="java.lang.String" resultType="int">
+        <![CDATA[
+            SELECT
+            	COUNT(USERNAME)
+            FROM
+                USERS
+            WHERE
+                USERNAME = '${value}'
+        ]]>
+	</select>
+	
+	<insert id="insertUser" parameterType="java.util.HashMap">
+		<![CDATA[
+			INSERT INTO USERS
+	        (
+	            USERNAME,
+	            PASSWORD,
+	            NAME,
+	            BIRTH,
+	            GENDER,
+	            PHONE,
+	            ADDR,
+	            EMAIL,
+	            DETAILADDR,
+	            ZIPCODE,
+	            AUTHORITY_CODE	
+	        )
+	        VALUES
+	        (
+	        	#{id},
+	        	#{pwd},
+	        	#{name},
+	        	#{BIRTH},
+	        	#{sex},
+	        	#{PHONE},
+	        	#{addr},
+	        	#{EMAIL},
+	        	#{detailAddr},
+	        	#{zipcode},
+	        	'1'
+	        )
+		]]>
+	</insert>
+	
+	<insert id="insertAuthority" parameterType="java.util.HashMap">
+		<![CDATA[
+			INSERT INTO MEMBER_AUTHORITY
+	        (
+	            ID,
+	            AUTHORITY	
+	        )
+	        VALUES
+	        (
+	        	#{id},
+	        	'ROLE_USER'
+	        )
+		]]>
+	</insert>
+	
+	
+	<select id="searchId" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        <![CDATA[
+            SELECT
+            	USERNAME
+            FROM
+                USERS
+            WHERE
+                NAME		= #{name}		AND
+                EMAIL 	= #{email}
+        ]]>
+	</select>
+	
+	<select id="searchPw" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        <![CDATA[
+            SELECT
+            	USERNAME
+            FROM
+                USERS
+            WHERE
+            	USERNAME = #{id}		AND
+                NAME		= #{name}	AND
+                EMAIL 	= #{email}
+        ]]>
+	</select>
+	
+	<update id="updateTmpPwd" parameterType="java.util.HashMap">
+    <![CDATA[
+        UPDATE USERS
+        SET
+            PASSWORD = #{encodedPwd}
+        WHERE
+            USERNAME = #{id}  
+    ]]>
+	</update>
+
+	<select id="getTotalUserInfo" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+        <![CDATA[
+            SELECT
+            	USERNAME,
+            	NAME,
+            	BIRTH,
+            	PHONE, 
+            	EMAIL,
+            	ADDR,
+            	DETAILADDR,
+            	ZIPCODE
+            FROM
+                USERS
+            WHERE
+            	USERNAME = #{id}
+        ]]>
+	</select>
+	
+	<select id="reconfirmUser" parameterType="java.util.HashMap" resultType="java.lang.String">
+        <![CDATA[
+            SELECT
+            	PASSWORD
+            FROM
+                USERS
+            WHERE
+            	USERNAME	 = #{id}
+        ]]>
+	</select>
+	
+	
+	<update id="updatePwd" parameterType="java.util.HashMap">
+    <![CDATA[
+        UPDATE USERS
+        SET
+            PASSWORD = #{pwd}
+        WHERE
+            USERNAME = #{id}  
+    ]]>
+	</update>
+	
+	<update id="updateUserInfo" parameterType="java.util.HashMap">
+    <![CDATA[
+        UPDATE USERS
+        SET
+            NAME 			= #{name},
+            BIRTH 			= #{birth},
+            PHONE			= #{ph},
+            EMAIL			= #{email},
+            ADDR 			= #{addr},
+            DETAILADDR 	= #{detailAddr},
+            ZIPCODE 		= #{zipcode}
+        WHERE
+            USERNAME = #{id}  
+    ]]>
+	</update>
+</mapper>

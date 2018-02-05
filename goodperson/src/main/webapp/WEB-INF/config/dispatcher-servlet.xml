@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+ 
+
+	<!-- 스프링에서 자동적으로 스테레오 타입의 애노테이션을 등록해주는 역할. @Controller, @Service, @Repository, Component 등
+		자동으로 bean으로 등록시켜주는 역할
+		use-default-filters="false"는 애노테이션을 자동으로 검색하지 않겠다는 뜻.
+		<context:include-filter>는 여기에 해당하는 애노테이션만 검색해서 bean으로 자동 등록시킨다.
+		나머지 @Service, @Repository, Component 등은 context-common.xml에서 component-scan 하게 된다. root context와 servlet context의 차이때문에 그렇다.
+		
+		<context:component-scan> 태그를 사용하면 @Component 어노테이션 뿐만 아니라 @Required, @Autowired와 같은 
+		어노테이션이 함께 적용 즉, <context:annotation-config/> 역할도 한다.
+		
+ 		base-package 아래의 모든 경로의 특정 애노테이션이 붙은 클래스들을 bean으로 관리한다.
+	 -->
+	<context:component-scan base-package="goodperson" use-default-filters="false">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+	
+	<!-- 컨트롤러 작성 시, 파라미터로 작성할 수 있는 클래스를 처리. -->
+	<!-- CustomMapArgumentResolver클래스에서 파라미터를 얻어서 CommandMap 객체에 넣은 후 CommandMap객체를 리턴한다. -->
+	<!-- CommandMap은 개발자 용도에 맞게 class 작성한다. -->
+	<!-- 컨트롤러단에서 매개변수로 CommandMap 객체 사용 시, resolver가 작동해서, 파라미터를 담은 CommandMap객체가 리턴된다. -->
+	<!-- 넘어온 파라미터를 자동으로 캐치해서 가지고 있는, map 클래스를 상속받은 CustomMap -->
+	<mvc:annotation-driven>
+        <mvc:argument-resolvers>
+            <bean class="goodperson.common.resolver.CustomMapArgumentResolver"></bean>       
+        </mvc:argument-resolvers>
+    </mvc:annotation-driven>
+	
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**"/>
+			<bean id="loggerInterceptor" class="goodperson.common.logger.LoggerInterceptor"></bean>
+		</mvc:interceptor>
+		
+		<!-- 특정 경로 뒤로 가기 막기 -->
+		<mvc:interceptor>
+			<mvc:mapping path="/user/join/**"/>
+			<bean id="webContentInterceptor" class="org.springframework.web.servlet.mvc.WebContentInterceptor">
+				<property name="cacheSeconds" value="0"/>
+				<property name="useExpiresHeader" value="true"/>
+				<property name="useCacheControlHeader" value="true"/>
+				<property name="useCacheControlNoStore" value="true"/>
+			</bean>
+		</mvc:interceptor>
+	</mvc:interceptors>
+	
+	<!-- aop 자동 탐색 -->
+	<!-- context-aspect.xml에 설정한 것과 같다. 이유는 그쪽에 서술해놨다. -->
+	<aop:aspectj-autoproxy/>
+    <bean id="loggerAspect" class="goodperson.common.logger.LoggerAspect" />
+	
+ 	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
+     
+    <bean class="org.springframework.web.servlet.view.BeanNameViewResolver" p:order="0" />
+    <bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" />    
+     
+    <bean
+        class="org.springframework.web.servlet.view.UrlBasedViewResolver" p:order="1"
+        p:viewClass="org.springframework.web.servlet.view.JstlView"
+        p:prefix="/WEB-INF/jsp/" p:suffix=".jsp">
+    </bean>
+    
+    <!-- To prevent browser's back button on displaying secured resource after logout -->
+    <!-- 로그 아웃 이후, 백 스페이스를 눌러서 로그인 상태로 가는 것을 방지. -->
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+    	<property name="cacheSeconds" value="0"/>
+    </bean>
+</beans>
+
+

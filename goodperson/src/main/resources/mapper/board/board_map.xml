@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+
+
+<!-- include 태그 : MyBatis의 기능으로, 쿼리의 일부분을 만들어 놓고, 그것을 가져다 사용할 수 있도록 하는 방법. -->
+<!-- 페이징 쿼리에서 항상 똑같이 사용되는 부분을 각각 pagingPre와 pagingPost로 만들어 놓는다. -->
+<!-- 실제 개발할 때, 이 부분을 그냥 붙여넣는 식으로 최대한 중복을 막는 것. -->
+	<select id="selectBoardList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		<include refid="common.pagingPre"/> 
+        <![CDATA[
+            SELECT
+	            ROW_NUMBER() OVER (ORDER BY IDX DESC) RNUM,
+	            IDX,
+	            TITLE,
+	            CREA_ID,
+	            HIT_CNT,
+	            CREA_DTM,
+	            COMMENTS_COUNT
+	        FROM
+	            TB_BOARD
+	        WHERE
+	            DEL_GB = 'N'
+        ]]>
+        <include refid="common.pagingPost"/>
+	</select>
+	
+ <!-- 사용자가 특정 리스트 항목을 키워드로 탐색 시, 기능 수행. -->
+	<!--<select id="searchBoardItem" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		<include refid="common.pagingPre"/> 
+        <![CDATA[
+            SELECT
+	            ROW_NUMBER() OVER (ORDER BY IDX DESC) RNUM,
+	            IDX,
+	            TITLE,
+	            CREA_ID,
+	            HIT_CNT,
+	            CREA_DTM
+	        FROM
+	            TB_BOARD
+	        WHERE
+	            DEL_GB = 'N' AND
+	             (
+	             	TITLE 		= '%'|| #{search_keyword} || '%' 	OR
+	             	CREA_ID	= '%'|| #{search_keyword} || '%'	OR
+	             	CONTENTS	= '%'|| #{search_keyword} || '%'
+	             )
+        ]]>
+        <include refid="common.pagingPost"/>
+	</select> -->
+	
+<!-- 사용자가 특정 리스트 항목을 키워드로 탐색 시, 기능 수행. -->
+	<select id="searchBoardItem_title" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		<include refid="common.pagingPre"/> 
+        <![CDATA[
+            SELECT
+	            ROW_NUMBER() OVER (ORDER BY IDX DESC) RNUM,
+	            IDX,
+	            TITLE,
+	            CREA_ID,
+	            HIT_CNT,
+	            CREA_DTM
+	        FROM
+	            TB_BOARD
+	        WHERE
+	            DEL_GB = 'N' AND
+	            LOWER(TITLE) LIKE LOWER('%'||#{search_keyword}||'%')
+        ]]>
+        <include refid="common.pagingPost"/>
+	</select>
+
+<!-- 사용자가 특정 리스트 항목을 키워드로 탐색 시, 기능 수행. -->
+	<select id="searchBoardItem_id" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		<include refid="common.pagingPre"/> 
+        <![CDATA[
+            SELECT
+	            ROW_NUMBER() OVER (ORDER BY IDX DESC) RNUM,
+	            IDX,
+	            TITLE,
+	            CREA_ID,
+	            HIT_CNT,
+	            CREA_DTM
+	        FROM
+	            TB_BOARD
+	        WHERE
+	            DEL_GB = 'N' AND
+	            LOWER(CREA_ID) LIKE LOWER('%'||#{search_keyword}||'%')
+        ]]>
+        <include refid="common.pagingPost"/>
+	</select>
+	
+<!-- 사용자가 특정 리스트 항목을 키워드로 탐색 시, 기능 수행. -->
+	<select id="searchBoardItem_contents" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		<include refid="common.pagingPre"/> 
+        <![CDATA[
+            SELECT
+	            ROW_NUMBER() OVER (ORDER BY IDX DESC) RNUM,
+	            IDX,
+	            TITLE,
+	            CREA_ID,
+	            HIT_CNT,
+	            CREA_DTM
+	        FROM
+	            TB_BOARD
+	        WHERE
+	            DEL_GB = 'N' AND
+	            LOWER(CONTENTS) LIKE LOWER('%'||#{search_keyword}||'%')
+        ]]>
+        <include refid="common.pagingPost"/>
+	</select>
+	
+<!-- main화면의 게시판 최신 5개 항목 검색 수행 -->
+	<select id="selectNewestBoardItem" resultType="java.util.HashMap">
+        <![CDATA[
+            SELECT
+			    T.*
+			FROM(
+			    SELECT 
+			        ROW_NUMBER() OVER(ORDER BY IDX DESC) RNUM,
+			        IDX,
+			        TITLE,
+			        CREA_ID,
+			        CREA_DTM
+			    FROM 
+			        TB_BOARD
+			    ORDER BY 
+			        IDX DESC
+			    )T
+			WHERE T.RNUM BETWEEN 0 AND 5
+        ]]>
+	</select>
+
+
+	<!-- 
+	useGeneratedKeys : MyBatis에서 제공하는 기능, DB에 입력(insert,update) 시 DB에서 자동적으로 증가되는 키를 받는
+	JDBC의 getGeneratedKeys()메소드를 사용하는 것.
+	
+	keyProperty : getGeneratedKeys()메소드나 insert구문의 <selectKey>에 의해 선택된 키를 세팅하는 속성.
+	
+	<selectKey> 구문을 통해서 다음 게시글 번호를 가져온 후, 그 값은 파라미터에 다시 저장된다.
+	 -->
+	<insert id="insertBoard" parameterType="hashmap" useGeneratedKeys="true" keyProperty="IDX">
+	    <selectKey keyProperty="IDX" resultType="string" order="BEFORE">
+	        SELECT SEQ_TB_BOARD_IDX.NEXTVAL FROM DUAL
+	    </selectKey>
+	    <![CDATA[
+	         
+	        INSERT INTO TB_BOARD
+	        (
+	            IDX,
+	            TITLE, 
+	            CONTENTS, 
+	            HIT_CNT, 
+	            DEL_GB, 
+	            CREA_DTM, 
+	            CREA_ID
+	        )
+	        VALUES
+	        (
+	            #{IDX}, 
+	            #{TITLE}, 
+	            #{CONTENTS}, 
+	            0, 
+	            'N', 
+	            SYSDATE,
+	            #{ID} 
+	        )
+	    ]]>
+	    <!-- 2015-11-24, 'Admin' => #{ID}로 수정. -->
+	</insert>
+
+
+	<update id="updateHitCnt" parameterType="java.util.HashMap">
+    <![CDATA[
+        UPDATE TB_BOARD 
+        SET
+            HIT_CNT = NVL(HIT_CNT, 0) + 1
+        WHERE
+            IDX = #{IDX}    
+    ]]>
+	</update>
+	
+	<update id="increaseCommCount" parameterType="java.util.HashMap">
+    <![CDATA[
+        UPDATE TB_BOARD 
+        SET
+            COMMENTS_COUNT = NVL(COMMENTS_COUNT, 0) + 1
+        WHERE
+            IDX = #{IDX}    
+    ]]>
+	</update>
+	
+	<update id="decreaseCommcount" parameterType="java.util.HashMap">
+    <![CDATA[
+        UPDATE TB_BOARD 
+        SET
+            COMMENTS_COUNT = NVL(COMMENTS_COUNT, 0) - 1
+        WHERE
+            IDX = #{IDX}    
+    ]]>
+	</update>
+
+	<select id="selectBoardDetail" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    <![CDATA[
+        SELECT
+            IDX,
+            HIT_CNT,
+            CREA_ID,
+            CREA_DTM,
+            TITLE,
+            CONTENTS
+        FROM
+            TB_BOARD
+        WHERE
+            IDX = #{IDX}        
+    ]]>
+	</select>
+	
+	<update id="updateBoard" parameterType="java.util.HashMap">
+    <![CDATA[
+        UPDATE TB_BOARD 
+        SET
+            TITLE = #{TITLE},
+            CONTENTS = #{CONTENTS}
+        WHERE
+            IDX = #{IDX}    
+    ]]>
+	</update>
+
+
+	<update id="deleteBoard" parameterType="java.util.HashMap">
+	    <![CDATA[
+	        UPDATE TB_BOARD
+	        SET
+	            DEL_GB = 'Y'
+	        WHERE
+	            IDX = #{IDX}
+	    ]]>
+	</update>
+	
+	<insert id="insertFile" parameterType="java.util.HashMap">
+	    <![CDATA[
+	        INSERT INTO TB_FILE
+	        (
+	            IDX,
+	            BOARD_IDX,
+	            ORIGINAL_FILE_NAME,
+	            STORED_FILE_NAME,
+	            FILE_SIZE,
+	            CREA_ID
+	        )
+	        VALUES
+	        (
+	            SEQ_TB_FILE_IDX.NEXTVAL,
+	            #{BOARD_IDX},
+	            #{ORIGINAL_FILE_NAME},
+	            #{STORED_FILE_NAME},
+	            #{FILE_SIZE},
+	            #{ID}
+	        )
+	    ]]>
+	    <!-- 2015-11-24, 'ADMIN'을 #{ID} 로 수정 -->
+	</insert>
+	
+	
+	<select id="selectFileList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	    <![CDATA[
+	        SELECT
+	            IDX,
+	            ORIGINAL_FILE_NAME,
+	            ROUND(FILE_SIZE/1024,1) AS FILE_SIZE
+	        FROM
+	            TB_FILE
+	        WHERE
+	            BOARD_IDX = #{IDX}
+	            AND DEL_GB = 'N'
+	    ]]>
+	</select>
+
+	<update id="deleteFileList" parameterType="java.util.HashMap">
+	    <![CDATA[
+	        UPDATE TB_FILE SET
+	            DEL_GB = 'Y'
+	        WHERE
+	            BOARD_IDX = #{IDX}  
+	    ]]>
+	</update>
+	 
+	<update id="updateFile" parameterType="java.util.HashMap">
+	    <![CDATA[
+	        UPDATE TB_FILE SET
+	            DEL_GB = 'N'
+	        WHERE
+	            IDX = #{FILE_IDX}   
+	    ]]>
+	</update>
+
+
+<!-- 댓글 등록 -->
+	<insert id="insertComment" parameterType="java.util.HashMap">
+	    <![CDATA[
+	        INSERT INTO TB_COMMENT
+	        (
+	            COMMENT_IDX,
+	            IDX,
+	            GROUP_IDX,
+	            STEP_IDX,
+	            CREA_ID,
+	            CONTENTS
+	        )
+	        VALUES
+	        (
+	            SEQ_TB_COMMENT_COMMENT_IDX.NEXTVAL,
+	            #{IDX},
+	            SEQ_TB_COMMENT_GROUP_IDX.NEXTVAL,
+	            0,
+	            #{ID},
+	            #{comment_contents}
+	        )
+	    ]]>
+	    <!-- 2015-11-24, 'ADMIN'을 #{ID} 로 수정 -->
+	</insert>
+	
+<!-- 재댓글 등록 -->
+	<insert id="insertRecomment" parameterType="java.util.HashMap">
+	    <![CDATA[
+	        INSERT INTO TB_COMMENT
+	        (
+	            COMMENT_IDX,
+	            PARENTS_IDX,
+	            IDX,
+	            GROUP_IDX,
+	            STEP_IDX,
+	            CREA_ID,
+	            CONTENTS
+	        )
+	        VALUES
+	        (
+	            SEQ_TB_COMMENT_COMMENT_IDX.NEXTVAL,
+	            #{PARENTS_IDX},
+	            #{IDX},
+	            #{GROUP_IDX},
+	            (
+	            	SELECT
+	            		MAX(STEP_IDX)+1
+	            	FROM
+	            		TB_COMMENT
+	            	WHERE
+	            		IDX				= #{IDX} 		AND
+	            		GROUP_IDX 	= #{GROUP_IDX}
+	            ),
+	            #{ID},
+	            #{comment_contents}
+	        )
+	    ]]>
+	    <!-- 2015-11-24, 'ADMIN'을 #{ID} 로 수정 -->
+	</insert>
+	
+	<select id="selectBoardComment" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	    <![CDATA[
+	        SELECT
+	        	GROUP_IDX,
+	        	STEP_IDX,
+	            COMMENT_IDX,
+	            PARENTS_IDX,
+	            CREA_ID,
+	            CONTENTS,
+	            to_char(CREA_DTM, 'YYYY-MM-DD HH24:MI:ss')	AS CREA_DTM
+	        FROM
+	            TB_COMMENT
+	        WHERE
+	            IDX = #{IDX}
+	        ORDER BY
+	        	GROUP_IDX ASC,
+	        	STEP_IDX ASC
+	    ]]>
+	</select>
+	
+	<!-- <select id="selectHasInsertedComment" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+	    <![CDATA[
+	        SELECT
+		    	TC.*
+			FROM(
+	           SELECT
+	                ROW_NUMBER() OVER(ORDER BY COMMENT_IDX DESC) RNUM,
+	                IDX,
+		            COMMENT_IDX,
+		            PARENTS_IDX,
+		            GROUP_IDX,
+		            STEP_IDX,
+		            CREA_ID,
+		            CONTENTS,
+		            to_char(CREA_DTM, 'YYYY-MM-DD HH24:MI:ss')	AS CREA_DTM
+		        FROM
+		            TB_COMMENT
+		        WHERE
+		            IDX 				= #{IDX} AND
+		            CREA_ID 		= #{ID}
+		        ORDER BY
+		        	COMMENT_IDX DESC
+	 		)TC
+			WHERE
+				TC.RNUM = 1
+	    ]]>
+	</select> -->
+	
+	<delete id="deleteComment" parameterType="java.util.HashMap">
+		<![CDATA[
+			DELETE FROM
+				TB_COMMENT
+			WHERE
+				COMMENT_IDX = ${COMMENT_IDX}
+		]]>
+	</delete>
+	
+</mapper>

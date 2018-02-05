@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:context="http://www.springframework.org/schema/context"
+        xmlns:aop="http://www.springframework.org/schema/aop"
+        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                            		   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd 
+                           			   http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+     
+     <!--action-servlet.xml에서 AOP를 설정한 것과 동일한 것을 알 수 있다.  root context와 servlet context의 차이 때문이다.-->
+     <!-- dispatcher-servelt에만 설정하면, controller와 관련된 bean에만 적용될 것이고, servlet context에 설정한 것은, 그쪽에만 적용될 것. -->
+     <!-- 따라서 양쪽에서 다 쓰려면, 양쪽에서 다 설정해야한다. -->
+    <aop:aspectj-autoproxy/>
+    <bean id="loggerAspect" class="goodperson.common.logger.LoggerAspect" />
+</beans>

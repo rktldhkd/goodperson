@@ -1,0 +1,318 @@
+@CHARSET "UTF-8";
+
+a:link, a:visited {
+	text-decoration: none;
+	color: #333;
+}
+
+h3 a:hover{
+	color: #933;
+}
+
+.btn-wide {
+ 	padding:8px 20px 8px 20px;
+    letter-spacing: 1px;
+}
+.btn-success {
+    color: #fff!important;
+    background-color: #5cb85c;
+    border-color: #4cae4c;
+    text-align: center;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.section_title{
+	cursor: pointer;
+}
+
+.search_type{
+	height: 26px;
+	width: 60px;
+	margin-right: 6px;
+	vertical-align: middle;
+}
+
+.search_input{
+	height: 26px;
+	width: 170px;
+	vertical-align: middle;
+    z-index: 2;
+}
+
+.search_btn{
+	height: 26px;
+	vertical-align: middle;
+	margin-left: -1px;
+    padding: 5px 10px;
+    background-color: white;
+    border: 1px solid #aaa;
+    z-index: 2;
+}
+
+.recomment_area{
+	border-bottom: 0px;
+	background-color: #c4c4ff;
+}
+.recommBackColor{
+	background-color: #E0E1FF;
+}
+.display_tbl_row{
+	display: table-row!important;
+}
+.display_tbl{
+	display: table;
+	position: relative;
+}
+.display_tblCell{
+	display: table-cell;
+	position: relative;
+}
+
+.main .title a{
+	color: #383d41;	
+}
+
+
+.board_content_wrapper{
+    width: 1027px;
+    min-height: 500px;
+}
+.board_newestItem_wrapper{
+	width: 40%;
+}
+
+.boardList_search_wrapper {
+    padding: 15px 0px;
+    margin-bottom: 5px;
+}
+.board_newestItem_area{
+	width:100%;
+	border: 1px solid #ddd;
+}
+.board_newestItem_area > div{
+	border-bottom: 1px solid #ddd;
+	padding: 8px 12px;
+}
+.board_newestItem_area div:LAST-CHILD{
+	border: 0px;
+}
+
+
+.board_newestItem_title{
+	line-height: 1.2em;	
+}
+.board_newestItem_title a{
+	color: #23527c;
+}
+.board_newestItem_title a:hover, .board_newestItem_title a:focus{
+	color: #23527c;
+    text-decoration: underline;
+}
+.board_newestItem_title a:link{
+	color: #23527c;
+}
+.board_newestItem_title a:visited{
+	color: #23527c;
+}
+
+.board_newestItem_info{
+	overflow: hidden;
+	line-height: 1.2em;
+	font-size: 10px;
+	font-family: Helvetica Neue, Helvetica, Arial, "Apple SD Gothic Neo", "Malgun Gothic", Dotdum;
+}
+.board_newestItem_info span:LAST-CHILD{
+	margin-right: 10px;
+	font-family: Helvetica Neue, Helvetica, Arial, "Apple SD Gothic Neo", "Malgun Gothic", Dotdum;
+}
+
+
+.board_list {
+	width: 100%;
+	border-top: 2px solid #252525;
+	border-bottom: 1px solid #ccc;
+	background-color: #fff;
+}
+
+.board_list thead th:first-child {
+	background-image: none;
+}
+
+.board_list thead th {
+	border-bottom: 1px solid #ccc;
+	padding: 12px 0 13px 0;
+	color: #3b3a3a;
+	vertical-align: middle;
+}
+
+.board_list tbody td {
+	border-top: 1px solid #ccc;
+	padding: 10px 0;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.board_list tbody tr:first-child td {
+	border: none;
+}
+
+.board_list tbody td.title {
+	text-align: left;
+	padding-left: 20px;
+}
+
+.board_list tbody td a {
+	display: inline-block;
+}
+
+.board_view {
+	width: 100%;
+	border-top: 2px solid #252525;
+	border-bottom: 1px solid #ccc;
+}
+
+.board_view tbody th {
+	text-align: left;
+	background: #f7f7f7;
+	color: #3b3a3a;
+	background-color: #d7d8ff;
+}
+
+.board_view tbody th.list_tit {
+	font-size: 13px;
+	color: #000;
+	letter-spacing: 0.1px;
+}
+
+.board_view tbody .no_line_b th, .board_view tbody .no_line_b td {
+	border-bottom: none;
+}
+
+.board_view tbody th, .board_view tbody td {
+	padding: 15px 0 16px 16px;
+	border-bottom: 1px solid #ccc;
+}
+
+.board_view tbody td.view_text {
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	padding: 45px 18px 45px 18px;
+}
+
+.board_view tbody th.th_file {
+	padding: 0 0 0 15px;
+	vertical-align: middle;
+}
+
+.wdp_90 {
+	width: 90%;
+}
+
+.btn {
+	border-radius: 3px;
+	padding: 5px 11px;
+	color: #fff !important;
+	display: inline-block;
+	background-color: #6b9ab8;
+	border: 1px solid #56819d;
+	vertical-align: middle;
+}
+
+.content_header{
+	width:100%;
+	padding-top: 10px;
+	padding-bottom: 10px;
+}
+
+.attachment{
+	margin-top: 3px;
+}
+
+.file{
+	font-family: Dotum,'돋움',Helvetica,AppleSDGothicNeo,sans-serif;
+	font-weight: 600;
+}
+
+.attachment .file:hover{
+	color : purple;
+}
+
+#fileDiv{
+	width  : 600px;
+	height : 100px;
+	overflow : scroll;
+	background: #aaa;
+}
+
+.board_paging_wrapper{
+	margin-top: 5px;
+	padding : 10px;
+}
+.board_paging_area{
+	text-align: center;
+	font-size: 18px;
+	font-family:  Helvetica Neue, Helvetica, Arial, "Apple SD Gothic Neo", "Malgun Gothic", Dotdum;
+}
+.board_paging_area li{
+	display: inline;
+}
+.board_paging_area li a{
+	background-color: #fff;
+	font-size: 14px;
+}
+.board_paging_area li a:HOVER{
+	background-color: #bdbdbd;
+}
+.board_paging_area li a img{
+	vertical-align: middle;
+}
+.board_page{
+	padding:5px 11px;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+}
+.board_firstPage{
+	padding:5px 13px;
+	border: 1px solid #ccc;
+}
+.board_lastPage, .board_prePage, .board_nextPage{
+	padding:5px 13px;
+	border-top: 1px solid #ccc;
+	border-bottom: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	border-left: 0px;
+}
+.board_currPage{
+	font-size: 14px;
+    color: #fff;
+    background-color:#4d67ff;
+    padding:5px 11px;
+    border-top: 1px solid #4d67ff;
+	border-bottom: 1px solid #4d67ff;
+	border-right: 1px solid #4d67ff;
+}
+
+
+.comment_list_area > table{
+	font-size: 12px;
+}
+.comment_list_area > table > tbody > tr{
+	padding: 12px 0px;
+}
+.comment_list_area .comment_id{
+	
+}
+.comment_list_area .comment_contents{
+	
+}
+.comment_list_area .comment_dtm{
+	text-align: center;
+}
+
+
+.comment_write_area{
+}

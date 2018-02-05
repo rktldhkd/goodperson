@@ -1,0 +1,93 @@
+@CHARSET "UTF-8";
+
+.pull_right{
+	float: right !important;
+}
+
+.area_notice{
+	color:#6f7275;
+	text-align: center;
+	padding: 15px 25px;
+	margin-bottom: 10px;
+	font-weight: lighter;
+}
+.view_notice{
+	margin-bottom: 10px;
+	font-size: 14px;
+	color: #6f7275;
+	font-weight:lighter;
+	font-family:  Helvetica Neue, Helvetica, Arial, "Apple SD Gothic Neo", "Malgun Gothic", Dotdum;
+}
+.board_notice{
+	margin-bottom: 4px;
+	font-size: 14px;
+	color: #333;
+	font-weight:lighter;
+	font-family:  Helvetica Neue, Helvetica, Arial, "Apple SD Gothic Neo", "Malgun Gothic", Dotdum;
+}
+
+.bold_text{
+	font-weight: 600;
+}
+.highlight_text{
+	font-weight: 600;
+	font-size: 16px;
+}
+.search_result{
+	margin-bottom: 10px;
+}
+
+.display_block{
+	display: block!important;
+}
+.border_bottom{
+	border-bottom: 1px solid #ccc!important;
+}
+
+#wrap{
+}
+
+#wrap #main_header{
+	
+}
+
+#wrap #content{
+	width : 980px;
+	margin : 0px auto;
+}
+
+#wrap #footer{
+	width: 980px;
+	margin : 0px auto;
+}
+
+body{
+	background-color: #f8f8f8;
+}
+
+header, main, aside, article, footer {
+    display: block;
+}
+
+body, input, button {
+    font-family: '돋움',Dotum,Helvetica,AppleSDGothicNeo,sans-serif;
+    font-size: 12px;
+    color: #383d41;
+}
+
+pre{
+	font-family: '돋움',Dotum,Helvetica,AppleSDGothicNeo,sans-serif;
+    font-size: 12px;
+    color: #383d41;
+}
+
+body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, form, fieldset, p, button {
+    margin: 0;
+    padding: 0;
+}
+
+dl,ul,ol,menu,li {list-style:none}
+
+table{
+	border-collapse: collapse;	
+}

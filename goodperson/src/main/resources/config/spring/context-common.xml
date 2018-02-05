@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://www.springframework.org/schema/beans"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:cache="http://www.springframework.org/schema/cache"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="
+    http://www.springframework.org/schema/beans 
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/mvc 
+    http://www.springframework.org/schema/mvc/spring-mvc.xsd
+    http://www.springframework.org/schema/cache 
+    http://www.springframework.org/schema/cache/spring-cache.xsd">
+                         
+	<!-- dispatcher-servlet.xml에서 scan범위에서 제외시켰던 @Service, @Repository, @Component등을 자동 스캔해서 빈 등록하기 위함. 
+		Controller 애노테이션을 제외하고 애노테이션을 검색하여 자동 빈 등록한다.
+		
+		<context:component-scan> 태그를 사용하면 @Component 어노테이션 뿐만 아니라 @Required, @Autowired와 같은 
+		어노테이션이 함께 적용 즉, <context:annotation-config/> 역할도 한다.
+		
+ 		base-package 아래의 모든 경로의 특정 애노테이션이 붙은 클래스들을 bean으로 관리한다.
+	-->                         
+    <context:component-scan base-package="goodperson">
+           <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>                     
+	                         
+	<!-- MultipartResolver : 스프링에서 파일 업로드 기능을 구현해 놓은 클래스 -->
+    <!-- MultipartResolver 설정 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="100000000" />
+        <property name="maxInMemorySize" value="100000000" />
+    </bean>
+    
+    <!-- 전자정부프레임워크 페이징 구현 시, 버튼들에 이미지/텍스트 등 적용 -->
+    <!-- map 안의 key값들이 페이징 기능 구현 시, view단에서 속성들이 됨. -->
+    <bean id="textRenderer" class="egovframework.rte.ptl.mvc.tags.ui.pagination.DefaultPaginationRenderer"/>
+    <bean id="imageRenderer" class="goodperson.common.util.ImagePaginationRenderer"/>
+   	<bean id="paginationManager" class="egovframework.rte.ptl.mvc.tags.ui.pagination.DefaultPaginationManager">
+   		<property name="rendererType">
+   			<map>
+   				<entry key="image" value-ref="imageRenderer"></entry>
+   				<entry key="text" value-ref="textRenderer"></entry>
+   			</map>
+   		</property>
+   	</bean>   
+</beans>

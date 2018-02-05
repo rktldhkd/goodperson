@@ -1,0 +1,139 @@
+@CHARSET "UTF-8";
+
+.wrap_container{
+	padding: 0;
+    margin: 0;
+    min-width: 500px;
+    max-width: 1280px;
+}
+
+.main_gnb a{
+	text-decoration: none;
+	color: #fff;
+	line-height: 20px;
+}
+.main_gnb a:link, .main_gnb a:visited {
+    text-decoration: none;
+	color: #fff;
+	line-height: 20px;
+}
+
+.main {
+    position: relative;
+    width: 1027px;
+    margin-left: 210px;
+    padding-left: 30px;
+    padding-top: 20px !important;
+}
+
+.main_gnb{
+	position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1000;
+    display: block;
+    padding: 0 20px;
+    overflow: hidden;
+    background-color: #0059ab;
+    width: 170px;
+    height: auto;
+    margin-right: 40px;
+    font-family: Helvetica Neue, Helvetica, Arial, "Apple SD Gothic Neo", "Malgun Gothic", Dotdum;
+    font-size: 14px;
+}
+
+.main_logo{
+	margin : 10px 0px 10px 0px;
+	padding : 10px 3px 10px 10px;
+}
+
+.main_user_info{
+	color: #fff;
+	text-align: center;
+}
+
+.user_roles_notice{
+	margin-top: 8px;
+    border: 1px solid #fff;
+    padding: 10px 0px 10px 5px;
+    text-align: left;
+    line-height: 20px;
+}
+
+.main_user_btn{
+	height: 160px;
+	margin-top: 20px;
+}
+
+.main_user_btn ul{
+	display: table;
+	width: 100%;
+}
+
+.main_user_btn li{
+    width: 50%;
+    float: left;
+    text-align: center;
+    border-top: 1px solid #00519c;
+    border-bottom: 1px solid #00519c;
+    box-sizing: border-box;
+    margin-bottom: 0;
+    padding: 10px 5px;
+}
+
+.main_user_btn li:nth-child(2) {
+    border-left: 1px solid #00519c;
+}
+
+.main_nav_wrapper{
+	overflow: hidden;
+	padding: 10px 0px 0 10px;
+}
+.main_nav{
+	float:left;
+	padding-right: 8px;
+	margin-right: 6px;
+	border-right: 1px solid #00519c;
+}
+.main_nav li{
+	padding-bottom : 20px;
+}
+
+.main_nav_category{
+	float:left;
+}
+.main_nav_category li font{
+	font-size:12px;
+	font-weight:600;
+	color:#fff;
+}
+.main_nav_on{
+	color: #ddd!important;
+}
+.main_nav_category_on{
+	display: block;
+}
+.main_nav_category_off{
+	display: none;
+}
+
+
+
+
+
+
+.main_banner_wrapper{
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.main-banner {
+    width: 805px;
+    height: 150px;
+}
+
+.board_content_wrapper {
+    width: 805px;
+    min-height: 500px;
+}

@@ -1,0 +1,86 @@
+@CHARSET "UTF-8";
+h5{
+	font-size: 14px;
+}
+
+/*CSS of login.jsp*/
+.login_area_wrapper div:FIRST-CHILD{
+	border-bottom: 1px solid #ddd;
+}
+
+.login_area_wrapper{
+	width:50%;
+	background-color: #fff;
+	border: 1px solid #ddd;
+}
+
+.login_area form{
+	padding: 20px 50px;
+}
+
+.login_id_wrapper{
+	width:100%;
+	margin-bottom: -2px;
+}
+
+.login_pwd_wrapper{
+	width:100%;
+}
+
+.login_btn_wrapper{
+	width:100%;
+}
+
+.login_btn_wrapper input:first-child{
+	width:100%;
+	font-size: 14px;
+	padding: 9px 0px;
+	letter-spacing: 1px;
+	cursor: pointer;
+}
+
+.login_id{
+	width:100%;
+	height:auto;
+	padding:5px;
+	font-size: 16px;
+}
+
+.login_pwd{
+	width:100%;
+	height:auto;
+	margin-bottom: 10px;
+	padding:5px;
+	font-size: 16px;
+}
+
+.login_link_wrapper{
+	width:100%;
+}
+
+.link_seperator{
+	margin: 0px 5px;
+}
+.link_signIn_And_Find_AccountInfo{
+	padding: 0px 0px 15px 0px;
+    text-align: center;
+}
+.link_signIn_And_Find_AccountInfo a{
+	font-size: 13px;
+}
+.link_signIn_And_Find_AccountInfo a:hover{
+	color:#0000a0;
+	text-decoration: underline;
+}
+
+.alert_warning_wrapper{
+	width:50%;
+	border: 1px solid #faebcc;
+	border-radius: 4px;
+}
+.alert_warning{
+	padding: 15px 10px;
+	color: #F34700;
+    background-color: #fcf8e3;
+    line-height: 18px;
+}
