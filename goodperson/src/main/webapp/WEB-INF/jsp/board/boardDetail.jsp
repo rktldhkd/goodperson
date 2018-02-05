@@ -449,7 +449,8 @@ $(function(){//jQuery
 	    				</div>
 	    				
 	    				<div style="overflow:hidden;">
-		    				<c:choose><!-- main_user_info div 태그 부분에 jstl 변수 roles 선언한 것을 재활용 -->
+	    					<!-- main_user_info div 태그 부분에 jstl 변수 roles 선언한 것을 재활용 -->
+		    				<c:choose>
 		    					<c:when test="${roles eq '' or roles eq null}"><!-- roles는 시큐리티부분의 변수 roles. -->
 		    						<textarea rows="10" cols="90" style="height:64px; overflow-y:hidden;  resize:none; padding:8px 8px;" maxlength="300" readonly="readonly" placeholder="로그인 후 댓글 입력 가능합니다."></textarea>
 		    					</c:when>
