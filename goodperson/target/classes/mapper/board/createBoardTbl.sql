@@ -2,7 +2,9 @@
 -- 기본 tb_board 테이블. 프로젝트에 쓰인 것과 제약조건 선언이(조건명) 차이가 좀 있다.
 CREATE TABLE TB_BOARD
 (
-    IDX NUMBER PRIMARY KEY,
+	
+    --IDX NUMBER PRIMARY KEY,
+  	IDX NUMBER CONSTRAINT PK_TB_BOARD_IDX PRIMARY KEY(IDX),
     PARENT_IDX NUMBER,
     TITLE VARCHAR2(100) NOT NULL,
     CONTENTS VARCHAR2(4000) NOT NULL,
@@ -13,7 +15,7 @@ CREATE TABLE TB_BOARD
     COMMENTS_COUNT NUMBER(4) DEFAULT 0 -- 밑의 컬럼 추가 후, 명시적으로 여기도 추가한거임. 둘중 하나만..
 );
 
---컬럼 추가
+--컬럼 추가. 위에 이미 추가되어있다.
 alter table TB_BOARD
 add (comments_count number(4) default 0);
 
@@ -36,6 +38,7 @@ END;
 SELECT * FROM TB_BOARD
 ORDER BY IDX ASC;
 
+--코멘트 테이블 작동 확인을 위한 데이터 추가.
 BEGIN
     FOR i IN 1..10 LOOP
     INSERT INTO TB_COMMENT(COMMENT_IDX, IDX, PARENTS_IDX, CREA_ID, CONTENTS, CREA_DTM)
